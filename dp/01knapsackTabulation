@@ -1,0 +1,56 @@
+class Solution
+{
+public:
+    int knapsack(int W, vector<int> &val, vector<int> &wt)
+    {
+        int n = val.size();
+
+        // dp[i][j] = maximum value achievable from items i...n-1
+        // with current weight = j
+        vector<vector<int>> dp(n + 1, vector<int>(W + 1, 0));
+
+        // Base case: dp[n][*] = 0
+        // (if no items left, max value = 0 for all weights)
+
+        // Fill table bottom-up
+        for (int i = n - 1; i >= 0; --i)
+        { // iterate items backwards
+            for (int j = W; j >= 0; --j)
+            {                            // iterate weights backwards
+                int skip = dp[i + 1][j]; // option 1: skip item
+                int take = 0;
+                if (j + wt[i] <= W)
+                { // option 2: take item (if valid)
+                    take = val[i] + dp[i + 1][j + wt[i]];
+                }
+                dp[i][j] = max(skip, take); // best of two choices
+            }
+        }
+
+        // Answer is max value starting from 0th item, weight 0
+        return dp[0][0];
+    }
+};
+
+/*
+ALGORITHM (Tabulation for 0/1 Knapsack):
+
+STATE:
+dp[i][j] = maximum value achievable from items[i...n-1]
+           when current total weight is j.
+
+BASE CASE:
+dp[n][*] = 0  (no items left → value = 0).
+
+TRANSITIONS:
+- Skip item i: dp[i][j] = dp[i+1][j]
+- Take item i (if j + wt[i] <= W):
+        dp[i][j] = val[i] + dp[i+1][j+wt[i]]
+
+ORDER OF FILLING:
+- Iterate i backwards (from n-1 down to 0).
+- Iterate j backwards (from W down to 0).
+
+ANSWER:
+dp[0][0] → best value starting with first item, weight = 0.
+*/

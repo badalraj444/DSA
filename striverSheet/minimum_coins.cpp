@@ -50,8 +50,8 @@ private:
 int main()
 {
     Solution s;
-    vector<int> coins = {2, 5};
-    int amount = 3;
+    vector<int> coins = {20, 30};
+    int amount = 70;
     int res = s.MinimumCoins(coins, amount);
     cout << res;
     return 0;

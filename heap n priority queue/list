@@ -1,0 +1,14 @@
+
+changeKey (ind, val) -> update the value at given index to val (index will be given 0-based indexing)
+
+main:
+
+implement all as a class
+
+insert (x) -> insert value x to the min heap
+getMin -> Output the minimum value from min heap
+exctractMin -> Remove the minimum element from the heap
+heapSize -> return the current size of the heap
+isEmpty -> returns if heap is empty or not
+changeKey (ind, val) -> update the value at given index to val (index will be given 0-based indexing)
+initializeHeap -> Initialize the heap

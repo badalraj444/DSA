@@ -1,3 +1,4 @@
+// BFS
 class Solution
 {
 public:
@@ -47,3 +48,45 @@ public:
         return false;
     }
 };
+// DFS
+
+// class Solution {
+// public:
+//     // Function to detect cycle in an undirected graph using DFS
+//     bool isCycle(int V, vector<int> adj[]) {
+//         vector<int> vis(V, 0);  // Visited array to keep track of visited nodes
+
+//         // Loop through all vertices (handles disconnected components)
+//         for (int i = 0; i < V; i++) {
+//             if (vis[i] == 0) {
+//                 // If not visited, start DFS from this node
+//                 if (dfs(i, -1, adj, vis))
+//                     return true;  // If cycle is found, return true
+//             }
+//         }
+
+//         // No cycle found in any component
+//         return false;
+//     }
+
+//     // Helper DFS function to detect a cycle
+//     bool dfs(int node, int parent, vector<int> adj[], vector<int>& vis) {
+//         vis[node] = 1;  // Mark the current node as visited
+
+//         // Visit all adjacent nodes
+//         for (int neighbor : adj[node]) {
+//             if (vis[neighbor] == 0) {
+//                 // If neighbor is unvisited, recursively DFS
+//                 if (dfs(neighbor, node, adj, vis))
+//                     return true;
+//             }
+//             // If neighbor is visited and not parent, cycle exists
+//             else if (neighbor != parent) {
+//                 return true;
+//             }
+//         }
+
+//         // No cycle detected from this path
+//         return false;
+//     }
+// };
