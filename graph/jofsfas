@@ -1,0 +1,76 @@
+class Solution
+{
+public:
+    int findTheCity(int n, vector<vector<int>> &edges, int distanceThreshold)
+    {
+        const int INF = distanceThreshold + 1; // anything > threshold is "unreachable"
+        vector<vector<int>> dist(n, vector<int>(n, INF));
+
+        // distance to self = 0
+        for (int i = 0; i < n; i++)
+        {
+            dist[i][i] = 0;
+        }
+
+        // graph is undirected, so set both directions
+        for (auto &e : edges)
+        {
+            int x = e[0], y = e[1], wt = e[2];
+            dist[x][y] = wt;
+            dist[y][x] = wt;
+        }
+
+        // Floyd-Warshall: try each node k as an intermediate node
+        for (int k = 0; k < n; k++)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (dist[i][k] != INF && dist[k][j] != INF)
+                    {
+                        dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+                    }
+                }
+            }
+        }
+
+        // count reachable cities for each node
+        int ans = 0;
+        int minCount = n; // maximum possible is n
+
+        for (int i = 0; i < n; i++)
+        {
+            int count = 0;
+            for (int j = 0; j < n; j++)
+            {
+                // only count if within threshold
+                if (dist[i][j] <= distanceThreshold)
+                    count++;
+            }
+            // tie-breaking: if same count, prefer larger index i
+            if (count <= minCount)
+            {
+                minCount = count;
+                ans = i;
+            }
+        }
+        return ans;
+    }
+};
+
+/*
+KEY INSIGHTS:
+1. We need shortest distance between every pair of cities → use Floyd-Warshall.
+2. Define INF = distanceThreshold + 1, so any path longer than threshold is useless.
+3. After computing all-pairs shortest paths, count how many cities each city can reach
+   with distance ≤ distanceThreshold.
+4. Track the city with the minimum count. If there’s a tie, return the city with the larger index.
+
+ALGORITHM STEPS:
+1. Initialize a distance matrix with INF; set dist[i][i] = 0.
+2. Fill in the direct edges (undirected graph).
+3. Run Floyd-Warshall to compute shortest paths.
+4. For each city, count reachable cities within threshold.
+5. Return the city with the smallest count (largest index in case of tie).
+*/
